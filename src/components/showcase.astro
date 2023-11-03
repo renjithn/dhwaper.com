@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import ContentSection from "~/components/content-section.astro";
+import ShowcaseCard from "~/components/showcase-card.astro";
+
+const featuredSites = await getCollection(
+  "showcase",
+  ({ data }) => "featured" in data,
+);
+const orderedSites = featuredSites.sort(
+  (a, b) => a.data.featured! - b.data.featured!,
+);
+---
+
+<ContentSection title="" id="showcase">
+  
+  <Fragment slot="lead" class = "font-sans" >
+    
+    We have been crafting<span class= "text-primary">  Apps </span>{" "}
+    that <span class="text-primary">  Empower</span> Lives{" "}
+    <!-- <span class="text-primary">inspired</span>. -->
+  </Fragment>
+
+  <div class="max-w-full space-y-10">
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-1 lg:grid-cols-2">
+      {orderedSites.map((site) => <ShowcaseCard site={site} />)}
+    </div>
+    <p class="text-right text-sm">
+      
+    </p>
+  </div>
+</ContentSection>
